@@ -165,7 +165,7 @@ class NotionAdapter extends NotionClient {
             },
             날짜: {
                 type: 'date',
-                date: { start: issue.date }
+                date: { start: issue.date() }
             },
             Label: {
                 multi_select: issue.getLabelList()
