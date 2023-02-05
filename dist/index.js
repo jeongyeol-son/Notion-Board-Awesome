@@ -169,6 +169,16 @@ class NotionAdapter extends NotionClient {
             },
             Label: {
                 multi_select: issue.getLabelList()
+            },
+            사람: {
+                type: 'people',
+                people: [
+                    {
+                        name: '손정열',
+                        type: 'person',
+                        person: { email: 'jeongyeol_son@awesomeit.co.kr' }
+                    }
+                ]
             }
         };
     }
