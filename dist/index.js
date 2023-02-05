@@ -43,19 +43,20 @@ class GithubAdapter {
         this.issueType = issueType;
     }
     action() {
+        console.info("github.context.payload.action : " + github.context.payload.action);
         return github.context.payload.action || '';
     }
     getIssue() {
         if (!github.context.payload.issue)
             return new issue_1.Issue({});
-        console.log("github.context.payload.issue : " + github.context.payload.issue);
+        console.info("github.context.payload.issue : " + github.context.payload.issue);
         return new issue_1.Issue(github.context.payload.issue);
     }
     async fetchAllIssues(token) {
         const octokit = github.getOctokit(token);
-        console.log("fetchAllIssues owner : " + github.context.repo.owner);
-        console.log("fetchAllIssues repo : " + github.context.repo.repo);
-        console.log("fetchAllIssues state : " + this.prepareIssueType());
+        console.info("fetchAllIssues owner : " + github.context.repo.owner);
+        console.info("fetchAllIssues repo : " + github.context.repo.repo);
+        console.info("fetchAllIssues state : " + this.prepareIssueType());
         const issues = await octokit.paginate('GET /repos/{owner}/{repo}/issues', {
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
@@ -63,7 +64,7 @@ class GithubAdapter {
             state: this.prepareIssueType()
         }, response => response.data.map(issue => new issue_1.Issue(issue)));
         issues.forEach(issue => {
-            console.log("Issue : " + issue);
+            console.info("Issue : " + issue);
         });
         return issues;
     }
@@ -162,6 +163,10 @@ class NotionAdapter extends NotionClient {
             },
             ID: {
                 number: issue.id()
+            },
+            날짜: {
+                "type": "date",
+                "date": { "start": issue.date }
             },
             Label: {
                 multi_select: issue.getLabelList()
@@ -386,6 +391,9 @@ class Issue {
     }
     labels() {
         return this._issue.labels;
+    }
+    date() {
+        return this._issue.updated_at;
     }
     getLabelList() {
         return this._issue.labels.map((el) => ({ name: el.name }));

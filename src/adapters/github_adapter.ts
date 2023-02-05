@@ -7,13 +7,15 @@ export class GithubAdapter {
     ) { }
 
     action() {
+
+        console.info("github.context.payload.action : "+ github.context.payload.action)
         return github.context.payload.action || ''
     }
 
     getIssue() {
         if (!github.context.payload.issue) return new Issue({});
 
-        console.log("github.context.payload.issue : "+ github.context.payload.issue)
+        console.info("github.context.payload.issue : "+ github.context.payload.issue)
         return new Issue(github.context.payload.issue);
     }
 
@@ -21,9 +23,9 @@ export class GithubAdapter {
         const octokit = github.getOctokit(token);
 
 
-        console.log("fetchAllIssues owner : "+github.context.repo.owner);
-        console.log("fetchAllIssues repo : "+github.context.repo.repo);
-        console.log("fetchAllIssues state : "+this.prepareIssueType());
+        console.info("fetchAllIssues owner : "+github.context.repo.owner);
+        console.info("fetchAllIssues repo : "+github.context.repo.repo);
+        console.info("fetchAllIssues state : "+this.prepareIssueType());
         const issues: Array<Issue> = await octokit.paginate('GET /repos/{owner}/{repo}/issues', {
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
@@ -32,7 +34,7 @@ export class GithubAdapter {
         }, response => response.data.map(issue => new Issue(issue)));
         
         issues.forEach(issue => {
-            console.log("Issue : "+issue)
+            console.info("Issue : "+issue)
         });
 
         return issues;

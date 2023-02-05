@@ -81,6 +81,10 @@ export class NotionAdapter extends NotionClient {
             ID: {
                 number: issue.id()
             },
+            날짜: {
+                "type": "date",
+                "date": { "start": issue.date }
+            } ,
             Label: {
                 multi_select: issue.getLabelList()
             }
