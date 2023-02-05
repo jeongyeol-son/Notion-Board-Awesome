@@ -165,7 +165,7 @@ class NotionAdapter extends NotionClient {
             },
             날짜: {
                 type: 'date',
-                date: { start: issue.date() }
+                date: { start: issue.createAt(), end: issue.closedAt() }
             },
             Label: {
                 multi_select: issue.getLabelList()
@@ -391,8 +391,14 @@ class Issue {
     labels() {
         return this._issue.labels;
     }
-    date() {
+    updateAt() {
         return this._issue.updated_at;
+    }
+    closedAt() {
+        return this._issue.closed_at;
+    }
+    createAt() {
+        return this._issue.created_at;
     }
     getLabelList() {
         return this._issue.labels.map((el) => ({ name: el.name }));
