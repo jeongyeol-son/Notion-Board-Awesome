@@ -48,6 +48,7 @@ class GithubAdapter {
     getIssue() {
         if (!github.context.payload.issue)
             return new issue_1.Issue({});
+        console.log("github.context.payload.issue : " + github.context.payload.issue);
         return new issue_1.Issue(github.context.payload.issue);
     }
     async fetchAllIssues(token) {
@@ -307,7 +308,8 @@ const run = async () => {
         throw new Error('Missing Notion Api Key');
     if (!NotionDatabaseId)
         throw new Error('Missing Notion Database ID');
-    console.log("Infomation initialzie : " + Token + " , " + NotionApiKey + " , " + NotionDatabaseId);
+    console.log("Infomation initialzie : " + Token + " , " + NotionApiKey + " , " + NotionDatabaseId + " , " + EventName);
+    console.log("Console log : " + core.getInput('issueType'));
     const app = new app_1.App(new notion_adapter_1.NotionAdapter(NotionApiKey, NotionDatabaseId), new github_adapter_1.GithubAdapter(core.getInput('issueType')), EventName, Token);
     if (EventName === 'workflow_dispatch') {
         await app.workflowDispatchHandler(core.getBooleanInput('setup'), core.getBooleanInput('syncIssues'));

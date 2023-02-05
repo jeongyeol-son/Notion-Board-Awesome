@@ -1,4 +1,5 @@
 import * as github from '@actions/github';
+import { makeConsoleLogger } from '@notionhq/client/build/src/logging';
 import { Issue } from '../models/issue';
 export class GithubAdapter {
     constructor(
@@ -11,6 +12,8 @@ export class GithubAdapter {
 
     getIssue() {
         if (!github.context.payload.issue) return new Issue({});
+
+        console.log("github.context.payload.issue : "+ github.context.payload.issue)
         return new Issue(github.context.payload.issue);
     }
 

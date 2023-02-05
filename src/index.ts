@@ -14,7 +14,8 @@ export const run = async () => {
     if (!NotionDatabaseId) throw new Error('Missing Notion Database ID');
 
 
-    console.log("Infomation initialzie : "+Token +" , "+ NotionApiKey +" , "+ NotionDatabaseId);
+    console.log("Infomation initialzie : "+Token +" , "+ NotionApiKey +" , "+ NotionDatabaseId +" , "+EventName);
+    console.log("Console log : "+ core.getInput('issueType'))
     const app = new App(
         new NotionAdapter(
             NotionApiKey,
