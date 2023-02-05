@@ -5,7 +5,9 @@ export interface IssueInterface {
     body(): string;
     html_url(): string;
     comments_url(): string;
-    date():string;
+    updateAt():string;
+    closedAt():string;
+    createAt():string;
     labels(): any;
 }
 
@@ -34,10 +36,15 @@ export class Issue implements IssueInterface {
     labels() {
         return this._issue.labels;
     }
-    date(): string {
+    updateAt(): string {
         return this._issue.updated_at;
     }
-
+    closedAt():string{
+        return this._issue.closed_at;
+    }
+    createAt():string{
+        return this._issue.created_at;
+    }
     getLabelList() {
         return this._issue.labels.map((el: any) => ({name: el.name}))
     }
