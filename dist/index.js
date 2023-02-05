@@ -49,7 +49,6 @@ class GithubAdapter {
     getIssue() {
         if (!github.context.payload.issue)
             return new issue_1.Issue({});
-        console.info("github.context.payload.issue : " + github.context.payload.issue);
         return new issue_1.Issue(github.context.payload.issue);
     }
     async fetchAllIssues(token) {
@@ -165,8 +164,8 @@ class NotionAdapter extends NotionClient {
                 number: issue.id()
             },
             날짜: {
-                "type": "date",
-                "date": { "start": issue.date }
+                type: 'date',
+                date: { start: issue.date }
             },
             Label: {
                 multi_select: issue.getLabelList()

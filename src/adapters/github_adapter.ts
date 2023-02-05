@@ -14,8 +14,6 @@ export class GithubAdapter {
 
     getIssue() {
         if (!github.context.payload.issue) return new Issue({});
-
-        console.info("github.context.payload.issue : "+ github.context.payload.issue)
         return new Issue(github.context.payload.issue);
     }
 
