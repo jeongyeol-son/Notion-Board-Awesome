@@ -12,6 +12,9 @@ export const run = async () => {
     if (!Token) throw new Error("Missing GitHub token");
     if (!NotionApiKey) throw new Error('Missing Notion Api Key');
     if (!NotionDatabaseId) throw new Error('Missing Notion Database ID');
+
+
+    console.log("Infomation initialzie : "+Token +" , "+ NotionApiKey +" , "+ NotionDatabaseId);
     const app = new App(
         new NotionAdapter(
             NotionApiKey,

@@ -16,12 +16,22 @@ export class GithubAdapter {
 
     async fetchAllIssues(token: string) {
         const octokit = github.getOctokit(token);
+
+
+        console.log("fetchAllIssues owner : "+github.context.repo.owner);
+        console.log("fetchAllIssues repo : "+github.context.repo.repo);
+        console.log("fetchAllIssues state : "+this.prepareIssueType());
         const issues: Array<Issue> = await octokit.paginate('GET /repos/{owner}/{repo}/issues', {
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             per_page: 100,
             state: this.prepareIssueType()
         }, response => response.data.map(issue => new Issue(issue)));
+        
+        issues.forEach(issue => {
+            console.log("Issue : "+issue)
+        });
+
         return issues;
     }
 

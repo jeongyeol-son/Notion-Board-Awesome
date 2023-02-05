@@ -52,12 +52,18 @@ class GithubAdapter {
     }
     async fetchAllIssues(token) {
         const octokit = github.getOctokit(token);
+        console.log("fetchAllIssues owner : " + github.context.repo.owner);
+        console.log("fetchAllIssues repo : " + github.context.repo.repo);
+        console.log("fetchAllIssues state : " + this.prepareIssueType());
         const issues = await octokit.paginate('GET /repos/{owner}/{repo}/issues', {
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             per_page: 100,
             state: this.prepareIssueType()
         }, response => response.data.map(issue => new issue_1.Issue(issue)));
+        issues.forEach(issue => {
+            console.log("Issue : " + issue);
+        });
         return issues;
     }
     prepareIssueType() {
@@ -301,6 +307,7 @@ const run = async () => {
         throw new Error('Missing Notion Api Key');
     if (!NotionDatabaseId)
         throw new Error('Missing Notion Database ID');
+    console.log("Infomation initialzie : " + Token + " , " + NotionApiKey + " , " + NotionDatabaseId);
     const app = new app_1.App(new notion_adapter_1.NotionAdapter(NotionApiKey, NotionDatabaseId), new github_adapter_1.GithubAdapter(core.getInput('issueType')), EventName, Token);
     if (EventName === 'workflow_dispatch') {
         await app.workflowDispatchHandler(core.getBooleanInput('setup'), core.getBooleanInput('syncIssues'));
